@@ -5,7 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "node .",
-    "dev": "ts-node-dev src"
+    "dev": "ts-node-dev src",
+    "build": "rm -rf dist && tsc && cp -R data dist/data"
+  },
+  "engines": {
+    "node": ">=20.15.1"
   },
   "devDependencies": {
     "@types/csv-parse": "^1.2.2",
