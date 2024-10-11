@@ -1,11 +1,13 @@
 import express from 'express'
 import seed from './database/seed'
-import routes from './routes'
+import movieRoutes from './routes/movieRoutes'
 
 const PORT = 3000
 
 const app = express()
+
 app.use(express.json())
+app.use('/movies', movieRoutes)
 
 const main = async (): Promise<void> => {
   try {
@@ -14,8 +16,6 @@ const main = async (): Promise<void> => {
     console.error('Error seeding the database:', err)
     return
   }
-
-  routes(app)
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
