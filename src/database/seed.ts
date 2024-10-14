@@ -12,10 +12,6 @@ const seed = async (): Promise<boolean> => {
 
   const promise = new Promise((resolve, reject) => {
     db.serialize(() => {
-      db.run(
-        'CREATE TABLE movies (id INTEGER PRIMARY KEY, title VARCHAR(40), studios VARCHAR(80), producers VARCHAR(80), year INTEGER, winner BOOLEAN )'
-      )
-
       db.run('BEGIN TRANSACTION')
 
       const stmt = db.prepare(

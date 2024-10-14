@@ -1,6 +1,7 @@
 import express from 'express'
-import seed from './database/seed'
 import movieRoutes from './routes/movieRoutes'
+import seed from './database/seed'
+import { initializeDatabase } from './database/connection'
 
 const PORT = 3000
 
@@ -10,6 +11,12 @@ app.use(express.json())
 app.use('/movies', movieRoutes)
 
 const main = async (): Promise<void> => {
+  try {
+    initializeDatabase()
+  } catch (err) {
+    console.error('Error initializing the database:', err)
+  }
+
   try {
     await seed()
   } catch (err) {
