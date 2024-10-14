@@ -20,7 +20,7 @@ export class MovieRepository {
                 row.studios,
                 row.producers,
                 row.year,
-                row.winner
+                Boolean(row.winner)
               )
           )
         )
@@ -51,7 +51,7 @@ export class MovieRepository {
               row.studios,
               row.producers,
               row.year,
-              row.winner
+              Boolean(row.winner)
             )
           )
         }
