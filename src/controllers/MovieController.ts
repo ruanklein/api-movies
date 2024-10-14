@@ -50,8 +50,9 @@ export class MovieController {
       return
     }
 
+    const { id } = req.params
     const movie = req.body as MovieInterface
-    const updatedMovie = await movieService.update(movie)
+    const updatedMovie = await movieService.update(parseInt(id), movie)
 
     res.json(updatedMovie)
   }

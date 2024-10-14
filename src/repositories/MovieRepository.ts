@@ -91,7 +91,7 @@ export class MovieRepository {
     })
   }
 
-  async update(movie: Movie): Promise<Movie> {
+  async update(id: number, movie: Movie): Promise<Movie> {
     return await new Promise((resolve, reject) => {
       db.run(
         'UPDATE movies SET title = ?, studios = ?, producers = ?, year = ?, winner = ? WHERE id = ?',
@@ -101,7 +101,7 @@ export class MovieRepository {
           movie.producers,
           movie.year,
           movie.winner ? 1 : 0,
-          movie.id,
+          id,
         ],
         (error: Error) => {
           if (error !== null && error !== undefined) {

@@ -62,7 +62,7 @@ describe('Movie Service Integration Tests', () => {
     movie.title = 'The Matrix Reloaded'
     movie.year = 2003
 
-    const updatedMovie = await movieService.update(movie)
+    const updatedMovie = await movieService.update(1, movie)
     movie = (await movieService.findById(1))!
 
     expect(updatedMovie).toBeInstanceOf(Movie)
