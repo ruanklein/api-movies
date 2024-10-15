@@ -21,11 +21,11 @@ export class MovieService {
     return await this.movieRepository.create(movie)
   }
 
-  async update(id: number, movie: MovieInterface): Promise<Movie> {
+  async update(id: number, movie: MovieInterface): Promise<Movie | null> {
     return await this.movieRepository.update(id, movie)
   }
 
-  async delete(id: number): Promise<number> {
+  async delete(id: number): Promise<number | null> {
     return await this.movieRepository.delete(id)
   }
 }

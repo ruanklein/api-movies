@@ -91,7 +91,7 @@ export class MovieRepository {
     })
   }
 
-  async update(id: number, movie: Movie): Promise<Movie> {
+  async update(id: number, movie: Movie): Promise<Movie | null> {
     return await new Promise((resolve, reject) => {
       db.run(
         'UPDATE movies SET title = ?, studios = ?, producers = ?, year = ?, winner = ? WHERE id = ?',
@@ -103,9 +103,14 @@ export class MovieRepository {
           movie.winner ? 1 : 0,
           id,
         ],
-        (error: Error) => {
+        function (error: Error) {
           if (error !== null && error !== undefined) {
             reject(error)
+            return
+          }
+
+          if (this.changes === 0) {
+            resolve(null)
             return
           }
 
@@ -115,7 +120,7 @@ export class MovieRepository {
     })
   }
 
-  async delete(id: number): Promise<number> {
+  async delete(id: number): Promise<number | null> {
     return await new Promise((resolve, reject) => {
       db.run('DELETE FROM movies WHERE id = ?', [id], function (error: Error) {
         if (error !== null && error !== undefined) {
@@ -123,7 +128,12 @@ export class MovieRepository {
           return
         }
 
-        resolve(this.changes)
+        if (this.changes === 0) {
+          resolve(null)
+          return
+        }
+
+        resolve(id)
       })
     })
   }

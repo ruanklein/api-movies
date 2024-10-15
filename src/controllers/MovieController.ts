@@ -25,6 +25,11 @@ export class MovieController {
     const { id } = req.params
     const movie = await movieService.findById(Number(id))
 
+    if (movie === null) {
+      res.status(404).json({ message: 'Movie not found' })
+      return
+    }
+
     res.json(movie)
   }
 
@@ -54,6 +59,11 @@ export class MovieController {
     const movie = req.body as MovieInterface
     const updatedMovie = await movieService.update(parseInt(id), movie)
 
+    if (updatedMovie === null) {
+      res.status(404).json({ message: 'Movie not found' })
+      return
+    }
+
     res.json(updatedMovie)
   }
 
@@ -66,7 +76,12 @@ export class MovieController {
     }
 
     const { id } = req.params
-    await movieService.delete(Number(id))
+    const deletedMovie = await movieService.delete(Number(id))
+
+    if (deletedMovie === null) {
+      res.status(404).json({ message: 'Movie not found' })
+      return
+    }
 
     res.status(204).end()
   }
