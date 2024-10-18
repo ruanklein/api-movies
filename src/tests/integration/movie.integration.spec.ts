@@ -3,6 +3,7 @@ import { MovieRepository } from '../../repositories/MovieRepository'
 import { MovieService } from '../../services/MovieService'
 import { Movie } from '../../models/Movie'
 import { initializeDatabase } from '../../database/connection'
+import { type AwardInterval } from '../../interfaces/MovieInterface'
 
 const movieMock: Movie = {
   id: 1,
@@ -75,5 +76,15 @@ describe('Movie Service Integration Tests', () => {
 
     expect(deletedMovie).toBe(1)
     expect(movie).toBeNull()
+  })
+
+  it('should return the minimum and maximum interval between awards', async () => {
+    const intervals: { min: AwardInterval[]; max: AwardInterval[] } =
+      await movieService.getAwardIntervals()
+
+    expect(intervals).toHaveProperty('min')
+    expect(intervals).toHaveProperty('max')
+    expect(intervals.min).toBeInstanceOf(Array)
+    expect(intervals.max).toBeInstanceOf(Array)
   })
 })
