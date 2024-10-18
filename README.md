@@ -15,6 +15,17 @@ Ou:
 docker compose up api
 ```
 
+### Rotas
+
+```
+GET /movies/winners-intervals (maior/menor intervalo)
+GET /movies (lista todos os filmes)
+GET /movies/{id} (exibe o filme)
+POST /movies (cadastra um novo filme)
+PUT /movies/{id} (atualiza um filme)
+DELETE /movies/{id} (deleta um filme)
+```
+
 ### Tests
 
 ```
