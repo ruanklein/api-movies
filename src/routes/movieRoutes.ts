@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/winners-intervals', async (req, res) => {
-  await movieController.winnersIntervals(req, res)
+  await movieController.getAwardIntervals(req, res)
 })
 
 router.get(

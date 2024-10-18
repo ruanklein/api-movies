@@ -18,7 +18,7 @@ export class MovieService {
     return await this.movieRepository.findAll()
   }
 
-  async findAllWinnersIntervals(): Promise<{
+  async getAwardIntervals(): Promise<{
     min: AwardInterval[]
     max: AwardInterval[]
   }> {
