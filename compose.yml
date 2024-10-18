@@ -1,0 +1,18 @@
+x-common: &common
+  image: node:20-alpine
+  volumes:
+    - .:/app
+  ports:
+    - 3000:3000
+  working_dir: /app
+
+services:
+  api:
+    <<: *common
+    container_name: api
+    command: sh -c "yarn install && yarn dev"
+
+  test:
+    <<: *common
+    container_name: test
+    command: sh -c "yarn install && yarn test"
