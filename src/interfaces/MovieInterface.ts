@@ -13,3 +13,8 @@ export interface AwardInterval {
   previousWin: number
   followingWin: number
 }
+
+export interface ProducersYearInterface {
+  producers: string
+  year: number
+}

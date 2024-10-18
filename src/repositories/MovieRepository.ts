@@ -1,5 +1,8 @@
 import { Movie } from '../models/Movie'
-import { type MovieInterface } from '../interfaces/MovieInterface'
+import {
+  type MovieInterface,
+  type ProducersYearInterface,
+} from '../interfaces/MovieInterface'
 import db from '../database/connection'
 
 export class MovieRepository {
@@ -28,11 +31,11 @@ export class MovieRepository {
     })
   }
 
-  async findAllWinners(): Promise<Array<{ producers: string; year: number }>> {
+  async findAllWinners(): Promise<ProducersYearInterface[]> {
     return await new Promise((resolve, reject) => {
       db.all(
         'SELECT producers, year FROM movies WHERE winner = 1 ORDER BY producers, year',
-        (error: Error, rows: Array<{ producers: string; year: number }>) => {
+        (error: Error, rows: ProducersYearInterface[]) => {
           if (error !== null && error !== undefined) {
             reject(error)
             return

@@ -4,6 +4,7 @@ import { type MovieRepository } from '../repositories/MovieRepository'
 import {
   type MovieInterface,
   type AwardInterval,
+  type ProducersYearInterface,
 } from '../interfaces/MovieInterface'
 
 export class MovieService {
@@ -25,7 +26,7 @@ export class MovieService {
 
     const intervalsByProducer: Record<string, AwardInterval[]> = {}
 
-    rows.forEach((row: { producers: string; year: number }) => {
+    rows.forEach((row: ProducersYearInterface) => {
       const { producers, year } = row
 
       if (!intervalsByProducer[producers]) {
