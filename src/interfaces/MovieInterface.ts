@@ -6,3 +6,10 @@ export interface MovieInterface {
   year: number
   winner: boolean
 }
+
+export interface AwardInterval {
+  producer: string
+  interval: number
+  previousWin: number
+  followingWin: number
+}

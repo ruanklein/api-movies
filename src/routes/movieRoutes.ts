@@ -14,6 +14,10 @@ router.get('/', async (req, res) => {
   await movieController.index(req, res)
 })
 
+router.get('/winners-intervals', async (req, res) => {
+  await movieController.winnersIntervals(req, res)
+})
+
 router.get(
   '/:id',
   showValidationRules(),

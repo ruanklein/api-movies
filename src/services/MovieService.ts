@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { type Movie } from '../models/Movie'
 import { type MovieRepository } from '../repositories/MovieRepository'
-import { type MovieInterface } from '../interfaces/MovieInterface'
+import {
+  type MovieInterface,
+  type AwardInterval,
+} from '../interfaces/MovieInterface'
 
 export class MovieService {
   movieRepository: MovieRepository
@@ -11,6 +15,72 @@ export class MovieService {
 
   async findAll(): Promise<Movie[]> {
     return await this.movieRepository.findAll()
+  }
+
+  async findAllWinnersIntervals(): Promise<{
+    min: AwardInterval[]
+    max: AwardInterval[]
+  }> {
+    const rows = await this.movieRepository.findAllWinners()
+
+    const intervalsByProducer: Record<string, AwardInterval[]> = {}
+
+    rows.forEach((row: { producers: string; year: number }) => {
+      const { producers, year } = row
+
+      if (!intervalsByProducer[producers]) {
+        intervalsByProducer[producers] = []
+      }
+
+      const wins = intervalsByProducer[producers]
+
+      if (wins.length > 0) {
+        const previousWin = wins[wins.length - 1].followingWin
+        const interval = year - previousWin
+        wins.push({
+          producer: producers,
+          interval,
+          previousWin,
+          followingWin: year,
+        })
+      } else {
+        wins.push({
+          producer: producers,
+          interval: 0,
+          previousWin: year,
+          followingWin: year,
+        })
+      }
+    })
+
+    let min: AwardInterval[] = []
+    let max: AwardInterval[] = []
+
+    for (const producer in intervalsByProducer) {
+      const intervals = intervalsByProducer[producer].filter(
+        (i) => i.interval > 0
+      )
+
+      if (intervals.length > 0) {
+        const minInterval = Math.min(...intervals.map((i) => i.interval))
+        const maxInterval = Math.max(...intervals.map((i) => i.interval))
+
+        const minIntervalData = intervals.find(
+          (i) => i.interval === minInterval
+        )
+        const maxIntervalData = intervals.find(
+          (i) => i.interval === maxInterval
+        )
+
+        if (minIntervalData) min.push(minIntervalData)
+        if (maxIntervalData) max.push(maxIntervalData)
+      }
+    }
+
+    min = min.sort((a, b) => a.interval - b.interval)
+    max = max.sort((a, b) => b.interval - a.interval)
+
+    return { min, max }
   }
 
   async findById(id: number): Promise<Movie | null> {

@@ -85,4 +85,9 @@ export class MovieController {
 
     res.status(204).end()
   }
+
+  async winnersIntervals(req: Request, res: Response): Promise<void> {
+    const movies = await movieService.findAllWinnersIntervals()
+    res.json(movies)
+  }
 }

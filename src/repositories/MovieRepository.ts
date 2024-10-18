@@ -28,6 +28,27 @@ export class MovieRepository {
     })
   }
 
+  async findAllWinners(): Promise<Array<{ producers: string; year: number }>> {
+    return await new Promise((resolve, reject) => {
+      db.all(
+        'SELECT producers, year FROM movies WHERE winner = 1 ORDER BY producers, year',
+        (error: Error, rows: Array<{ producers: string; year: number }>) => {
+          if (error !== null && error !== undefined) {
+            reject(error)
+            return
+          }
+
+          resolve(
+            rows.map((row) => ({
+              producers: row.producers,
+              year: row.year,
+            }))
+          )
+        }
+      )
+    })
+  }
+
   async findById(id: number): Promise<Movie | null> {
     return await new Promise((resolve, reject) => {
       db.get(
